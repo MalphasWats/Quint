@@ -1,0 +1,66 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <script src="jaws.js"></script>
+        <script src="../quint.js"></script>
+        <link rel="stylesheet" href="../quint.css" title="Quint" type="text/css" media="screen" charset="utf-8">
+        
+        <style type="text/css">
+        	canvas
+        	{
+        		display:block;
+	        	margin:0 auto;
+        	}
+        </style>
+        
+        <title>Quint - Example</title>
+    </head>
+<body style="background:black; color:white;">
+	<h1>Quint Example</h1>
+    <canvas width="820" height="320" style="background:white;"></canvas>    
+ 
+    <script>
+        function Example() {
+            var ship
+
+            this.setup = function() {
+                ship = new jaws.Sprite({image: "ship.png", x:jaws.width/2, y:jaws.height/2, anchor: "center"})
+                ship.move = function(x, y) 
+                {
+                    this.x += x
+                    this.y += y
+                    
+                    jaws.forceInsideCanvas(this)
+                }
+                
+                	
+                jaws.context.mozImageSmoothingEnabled = false;    // non-blurry, blocky retro scaling
+                jaws.preventDefaultKeys(["up", "down", "left", "right", "space"])
+            }
+
+            this.update = function()
+            {
+                if (jaws.pressed("left")  || quint.touched("left"))  { ship.move(-5, 0) }
+                if (jaws.pressed("right") || quint.touched("right")) { ship.move(5, 0)  }
+                if (jaws.pressed("up")    || quint.touched("up"))    { ship.move(0, -5) }
+                if (jaws.pressed("down")  || quint.touched("down"))  { ship.move(0, 5)  }
+            }
+
+            this.draw = function()
+            {
+            	jaws.clear()
+                ship.draw()
+            }
+        }
+        
+        jaws.onload = function()
+        {
+        	
+            jaws.assets.add(["ship.png"])
+            jaws.start(Example)
+        }
+    </script>
+
+</body>
+</html>
+
